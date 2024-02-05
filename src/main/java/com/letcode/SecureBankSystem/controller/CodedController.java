@@ -1,6 +1,6 @@
 package com.letcode.SecureBankSystem.controller;
 
-import com.letcode.SecureBankSystem.models.Person;
+import com.letcode.SecureBankSystem.bo.Person;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
