@@ -1,14 +1,13 @@
-package com.letcode.SecureBankSystem.controller.userController;
+package com.letcode.SecureBankSystem.controllers.userController;
 
 import com.letcode.SecureBankSystem.bo.user.CreateUserRequest;
 import com.letcode.SecureBankSystem.bo.user.UpdateUserRequest;
-import com.letcode.SecureBankSystem.entity.UserEntity;
-import com.letcode.SecureBankSystem.models.Status;
-import com.letcode.SecureBankSystem.service.UserService;
+import com.letcode.SecureBankSystem.entities.UserEntity;
+import com.letcode.SecureBankSystem.services.user.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 public class UserController {
@@ -20,19 +19,27 @@ public class UserController {
 
     @PostMapping("/create-user")
     public ResponseEntity<String> createUser(@RequestBody CreateUserRequest createUserRequest){
-        userService.saveUser(createUserRequest);
-        return ResponseEntity.ok("User created successfully");
+        try{
+            userService.saveUser(createUserRequest);
+            return ResponseEntity.ok("User created successfully");
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("/updateStatus")
     public ResponseEntity<String> updateStatus(@RequestParam long userId, @RequestParam String status) {
-        if (!status.toUpperCase().equals(Status.ACTIVE.toString()) && !status.toUpperCase().equals(Status.INACTIVE.toString()))
-            return ResponseEntity.badRequest().body("Invalid input for parameter status");
         UpdateUserRequest updateUserRequest = new UpdateUserRequest();
         updateUserRequest.setUserId(userId);
         updateUserRequest.setStatus(status);
-        userService.updateUserStatus(updateUserRequest);
-        return ResponseEntity.ok().body("status updated");
+        try {
+            userService.updateUserStatus(updateUserRequest);
+            return ResponseEntity.ok().body("status updated");
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (NoSuchElementException e){
+            return ResponseEntity.badRequest().body("User " + userId + " does not exist");
+        }
     }
 
     @GetMapping("/searchUsers")

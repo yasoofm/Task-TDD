@@ -1,9 +1,10 @@
-package com.letcode.SecureBankSystem.controller;
+package com.letcode.SecureBankSystem.controllers;
 
 import com.letcode.SecureBankSystem.bo.Person;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/v1/user")
 public class CodedController {
 
     @GetMapping("/sayHi")

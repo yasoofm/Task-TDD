@@ -1,5 +1,7 @@
 package com.letcode.SecureBankSystem.bo.user;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class CreateUserRequest {
     private String name, email, phone;
     private String status;

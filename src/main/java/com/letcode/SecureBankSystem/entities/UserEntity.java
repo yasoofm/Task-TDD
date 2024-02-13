@@ -1,7 +1,6 @@
-package com.letcode.SecureBankSystem.entity;
+package com.letcode.SecureBankSystem.entities;
 
-import com.letcode.SecureBankSystem.models.Status;
-
+import com.letcode.SecureBankSystem.utils.enums.Status;
 import javax.persistence.*;
 
 @Entity
@@ -9,22 +8,32 @@ import javax.persistence.*;
 public class UserEntity {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @Column(name = "email", nullable = false)
+    @Column(nullable = false)
     private String email;
 
-    @Column(name = "status", nullable = false)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Column(name = "user_name", nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    private RolesEntity roles;
 
     public Status getStatus(){
         return status;
@@ -64,5 +73,29 @@ public class UserEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public RolesEntity getRoles() {
+        return roles;
+    }
+
+    public void setRoles(RolesEntity roles) {
+        this.roles = roles;
     }
 }
