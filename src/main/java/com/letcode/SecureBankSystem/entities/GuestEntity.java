@@ -1,5 +1,7 @@
 package com.letcode.SecureBankSystem.entities;
 
+import com.letcode.SecureBankSystem.utils.enums.SuggestionStatus;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,10 +16,22 @@ public class GuestEntity {
 
     private long rate;
 
-    public GuestEntity(String suggestionText, long rate) {
-        this.id = id;
+    @Enumerated(EnumType.STRING)
+    private SuggestionStatus status;
+
+    public SuggestionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(SuggestionStatus status) {
+        this.status = status;
+    }
+
+    public GuestEntity(){}
+    public GuestEntity(String suggestionText, long rate, SuggestionStatus status) {
         this.suggestionText = suggestionText;
         this.rate = rate;
+        this.status = status;
     }
 
     public long getId() {
