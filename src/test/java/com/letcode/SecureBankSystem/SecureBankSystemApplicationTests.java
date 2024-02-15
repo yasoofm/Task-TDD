@@ -63,9 +63,17 @@ class SecureBankSystemApplicationTests {
 
 	@Test
 	public void whenGetCreateStatusSuggestions_thenSuccess(){
-		List<GuestEntity> suggestions = Arrays.asList(new GuestEntity("text", 5, SuggestionStatus.CREATE), new GuestEntity("text", 5, SuggestionStatus.CREATE), );
-		Mockito.when(guestRepository.findAllCreatedSuggestions()).thenReturn();
+		List<GuestEntity> suggestions = Arrays.asList(new GuestEntity("text", 5, SuggestionStatus.CREATE), new GuestEntity("text", 5, SuggestionStatus.CREATE), new GuestEntity("text", 5, SuggestionStatus.REMOVE), new GuestEntity("text", 5, SuggestionStatus.REMOVE), new GuestEntity("text", 5, SuggestionStatus.CREATE));
+		Mockito.when(guestRepository.findAll()).thenReturn(suggestions);
 
-		Assertions.assertEquals(Arrays.asList(new GuestEntity("text", 5, SuggestionStatus.CREATE), new GuestEntity("text", 5, SuggestionStatus.CREATE)), guestRepository.findAllCreatedSuggestions());
+		Assertions.assertEquals(Arrays.asList(new GuestEntity("text", 5, SuggestionStatus.CREATE).getStatus(), new GuestEntity("text", 5, SuggestionStatus.CREATE).getStatus(), new GuestEntity("text", 5, SuggestionStatus.CREATE).getStatus()), suggestionsService.findSuggestions("CREATE").stream().map(GuestEntity::getStatus).collect(Collectors.toList()));
+	}
+
+	@Test
+	public void whenGetRemoveStatusSuggestions_thenSuccess(){
+		List<GuestEntity> suggestions = Arrays.asList(new GuestEntity("text", 5, SuggestionStatus.CREATE), new GuestEntity("text", 5, SuggestionStatus.CREATE), new GuestEntity("text", 5, SuggestionStatus.REMOVE), new GuestEntity("text", 5, SuggestionStatus.REMOVE), new GuestEntity("text", 5, SuggestionStatus.CREATE));
+		Mockito.when(guestRepository.findAll()).thenReturn(suggestions);
+
+		Assertions.assertEquals(Arrays.asList(new GuestEntity("text", 5, SuggestionStatus.REMOVE).getStatus(), new GuestEntity("text", 5, SuggestionStatus.REMOVE).getStatus()), suggestionsService.findSuggestions("REMOVE").stream().map(GuestEntity::getStatus).collect(Collectors.toList()));
 	}
 }
