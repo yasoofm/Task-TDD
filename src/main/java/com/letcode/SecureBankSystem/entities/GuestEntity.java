@@ -28,11 +28,6 @@ public class GuestEntity {
     }
 
     public GuestEntity(){}
-    public GuestEntity(String suggestionText, long rate, SuggestionStatus status) {
-        this.suggestionText = suggestionText;
-        this.rate = rate;
-        this.status = status;
-    }
 
     public long getId() {
         return id;
